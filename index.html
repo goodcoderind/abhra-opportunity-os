@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A student opportunity dashboard UI concept with illustrative demo data." />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <title>Opportunity OS — Student Dashboard Concept</title>
+  <style>
+    :root {
+      --ink: #172019;
+      --muted: #667067;
+      --paper: #f4f1e8;
+      --card: #fffef9;
+      --line: #d8d4c8;
+      --acid: #c7f36b;
+      --forest: #204c3b;
+      --orange: #ff6b35;
+      --blue: #dce8ff;
+      --shadow: 0 18px 48px rgba(30, 39, 31, 0.09);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 88% 7%, rgba(199, 243, 107, 0.33), transparent 25rem),
+        var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button, input { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; }
+
+    .shell { display: grid; grid-template-columns: 236px 1fr; min-height: 100vh; }
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 28px 20px;
+      color: #f7f5ec;
+      background: #15241c;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 42px; }
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      color: var(--ink);
+      background: var(--acid);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .brand strong, .brand small { display: block; }
+    .brand small { margin-top: 3px; color: #9bab9f; font-size: 11px; }
+
+    nav { display: grid; gap: 5px; }
+    nav a {
+      padding: 11px 12px;
+      border-radius: 10px;
+      color: #a8b5ab;
+      text-decoration: none;
+      font-size: 13px;
+    }
+    nav a:first-child { color: var(--ink); background: var(--acid); font-weight: 800; }
+
+    .side-note {
+      position: absolute;
+      right: 20px;
+      bottom: 24px;
+      left: 20px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      color: #9bab9f;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    main { padding: 0 clamp(24px, 5vw, 72px) 70px; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 72px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(244, 241, 232, 0.88);
+      backdrop-filter: blur(16px);
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      width: min(460px, 55vw);
+      height: 42px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.65);
+    }
+    .search input { width: 100%; border: 0; outline: 0; background: transparent; }
+    .demo-pill {
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #26421c;
+      background: var(--acid);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: clamp(30px, 6vw, 88px);
+      align-items: center;
+      padding: 72px 0 50px;
+    }
+    .eyebrow { color: var(--forest); font-size: 10px; font-weight: 900; letter-spacing: 0.13em; text-transform: uppercase; }
+    h1 { max-width: 780px; margin: 16px 0 0; font-size: clamp(54px, 7vw, 100px); line-height: 0.88; letter-spacing: -0.075em; }
+    h1 em { color: var(--forest); font-weight: 450; }
+    .hero-copy p { max-width: 590px; margin: 30px 0 0; color: var(--muted); line-height: 1.7; }
+
+    .focus {
+      position: relative;
+      overflow: hidden;
+      min-height: 310px;
+      padding: 36px;
+      border-radius: 24px;
+      color: white;
+      background: var(--forest);
+      box-shadow: var(--shadow);
+    }
+    .focus::after { content: ""; position: absolute; right: -80px; bottom: -90px; width: 220px; height: 220px; border: 42px solid rgba(199, 243, 107, 0.15); border-radius: 50%; }
+    .focus span { color: #b9c9bd; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .focus h2 { position: relative; z-index: 1; margin: 52px 0 15px; font-size: clamp(34px, 3.7vw, 56px); line-height: 0.98; letter-spacing: -0.055em; }
+    .focus p { position: relative; z-index: 1; max-width: 460px; color: #cbd6ce; font-size: 13px; line-height: 1.6; }
+
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-radius: 16px; background: rgba(255, 255, 255, 0.54); overflow: hidden; }
+    .metric { padding: 23px; border-right: 1px solid var(--line); }
+    .metric:last-child { border-right: 0; }
+    .metric strong { display: block; font-size: 30px; letter-spacing: -0.06em; }
+    .metric span { color: var(--muted); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    section { padding-top: 80px; }
+    .section-head { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 24px; }
+    .section-head h2 { margin: 0; font-size: clamp(32px, 4vw, 48px); letter-spacing: -0.055em; }
+    .section-head p { max-width: 430px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+
+    .filters { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 22px; }
+    .filters button { cursor: pointer; height: 34px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255, 255, 255, 0.65); font-size: 10px; font-weight: 800; }
+    .filters button.active { color: white; border-color: var(--ink); background: var(--ink); }
+
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .card { display: flex; flex-direction: column; min-height: 335px; padding: 24px; border: 1px solid var(--line); border-radius: 17px; background: rgba(255, 254, 249, 0.88); transition: transform 0.18s, box-shadow 0.18s; }
+    .card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+    .card.hidden { display: none; }
+    .card-top { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+    .type { color: var(--muted); font-size: 9px; font-weight: 900; letter-spacing: 0.09em; text-transform: uppercase; }
+    .funding { padding: 6px 8px; border-radius: 999px; background: var(--blue); color: #30456c; font-size: 8px; font-weight: 900; }
+    .funding.green { color: #29401e; background: var(--acid); }
+    .funding.orange { color: #813519; background: #ffe4d8; }
+    .card h3 { margin: 24px 0 8px; font-size: 23px; line-height: 1.05; letter-spacing: -0.045em; }
+    .location { margin: 0; color: var(--muted); font-size: 11px; }
+    .deadline { display: flex; align-items: center; gap: 8px; margin-top: 22px; color: var(--forest); font-size: 10px; font-weight: 800; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
+    .card-copy { margin: 18px 0 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
+    .card footer { margin-top: auto; padding-top: 18px; border-top: 1px solid var(--line); color: var(--forest); font-size: 10px; font-weight: 900; }
+
+    .notes { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .note { padding: 34px; border-radius: 20px; border: 1px solid var(--line); background: var(--card); }
+    .note.dark { color: white; border-color: var(--forest); background: var(--forest); }
+    .note h3 { margin: 0 0 18px; font-size: 30px; letter-spacing: -0.05em; }
+    .note p, .note li { color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .note.dark p, .note.dark li { color: #cbd6ce; }
+    .note ul { margin: 0; padding-left: 18px; }
+    .empty { display: none; padding: 35px; border: 1px dashed var(--line); border-radius: 16px; color: var(--muted); text-align: center; }
+
+    @media (max-width: 1050px) {
+      .hero { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 760px) {
+      .shell { display: block; }
+      aside { position: static; height: auto; padding: 18px; }
+      aside nav, .side-note { display: none; }
+      .brand { margin: 0; }
+      main { padding: 0 18px 50px; }
+      .topbar { min-height: 64px; }
+      .search { width: calc(100% - 105px); }
+      .hero { padding-top: 48px; }
+      h1 { font-size: 56px; }
+      .metrics, .grid, .notes { grid-template-columns: 1fr; }
+      .metric { border-right: 0; border-bottom: 1px solid var(--line); }
+      .metric:last-child { border-bottom: 0; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <div class="brand"><div class="mark">OS</div><div><strong>Opportunity OS</strong><small>student dashboard concept</small></div></div>
+      <nav aria-label="Prototype navigation">
+        <a href="#discover">Discover</a>
+        <a href="#pipeline">Pipeline</a>
+        <a href="#notes">Design notes</a>
+      </nav>
+      <div class="side-note">Frontend sandbox<br />Illustrative demo data only</div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <label class="search"><input id="search" type="search" placeholder="Search the demo cards…" aria-label="Search demo cards" /></label>
+        <span class="demo-pill">Demo data</span>
+      </header>
+
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">UI / UX exploration</span>
+          <h1>Your next move, <em>clearly.</em></h1>
+          <p>A concept for organising student programmes across research, engineering, entrepreneurship, policy, and social impact—without losing the funding and eligibility details that matter.</p>
+        </div>
+        <article class="focus">
+          <span>Prototype principle 01</span>
+          <h2>Evidence before excitement.</h2>
+          <p>The interface is designed to keep eligibility, funding coverage, deadlines, and source verification visible before a user saves a programme.</p>
+        </article>
+      </div>
+
+      <div class="metrics" aria-label="Demo metrics">
+        <div class="metric"><strong>06</strong><span>sample cards</span></div>
+        <div class="metric"><strong>05</strong><span>categories</span></div>
+        <div class="metric"><strong>03</strong><span>funding states</span></div>
+        <div class="metric"><strong>00</strong><span>live listings</span></div>
+      </div>
+
+      <section id="discover">
+        <div class="section-head">
+          <h2>Discover</h2>
+          <p>Illustrative cards used to test hierarchy, filters, urgency signals, and responsive behaviour. These are not real listings.</p>
+        </div>
+        <div class="filters" aria-label="Category filters">
+          <button class="active" data-filter="all">All</button>
+          <button data-filter="research">Research</button>
+          <button data-filter="engineering">Engineering</button>
+          <button data-filter="startup">Startup</button>
+          <button data-filter="policy">Policy</button>
+          <button data-filter="impact">Social impact</button>
+        </div>
+
+        <div class="grid" id="cards">
+          <article class="card" data-category="research" data-search="ai research summer lab machine learning">
+            <div class="card-top"><span class="type">Research</span><span class="funding green">Funding covered</span></div>
+            <h3>AI Research Summer Lab</h3><p class="location">Global · Sample programme</p>
+            <div class="deadline"><span class="dot"></span>Illustrative deadline · 12 Sep</div>
+            <p class="card-copy">A fictional research programme card for testing how funding, mentorship, workload, and eligibility could be summarised.</p>
+            <footer>Demo card · no application link</footer>
+          </article>
+          <article class="card" data-category="engineering" data-search="climate data engineering challenge hackathon">
+            <div class="card-top"><span class="type">Engineering</span><span class="funding orange">Prize-based</span></div>
+            <h3>Climate Data Challenge</h3><p class="location">Online · Sample competition</p>
+            <div class="deadline"><span class="dot"></span>Illustrative deadline · 28 Sep</div>
+            <p class="card-copy">A fictional team challenge used to test deliverable labels, participation mode, and the difference between prizes and travel funding.</p>
+            <footer>Demo card · no application link</footer>
+          </article>
+          <article class="card" data-category="startup" data-search="student builder startup residency singapore">
+            <div class="card-top"><span class="type">Startup</span><span class="funding">Stipend example</span></div>
+            <h3>Student Builder Residency</h3><p class="location">Singapore · Sample residency</p>
+            <div class="deadline"><span class="dot"></span>Illustrative deadline · 04 Oct</div>
+            <p class="card-copy">A fictional founder programme for exploring how term-time workload and in-person commitment warnings could appear.</p>
+            <footer>Demo card · no application link</footer>
+          </article>
+          <article class="card" data-category="policy" data-search="policy innovation youth forum geneva">
+            <div class="card-top"><span class="type">Policy</span><span class="funding green">Travel example</span></div>
+            <h3>Policy Innovation Forum</h3><p class="location">Geneva · Sample forum</p>
+            <div class="deadline"><span class="dot"></span>Illustrative deadline · 19 Oct</div>
+            <p class="card-copy">A fictional youth forum card used to make funding ambiguity and delegate-selection language easier to notice.</p>
+            <footer>Demo card · no application link</footer>
+          </article>
+          <article class="card" data-category="research" data-search="open science exchange tokyo japan">
+            <div class="card-top"><span class="type">Research</span><span class="funding">Partial grant</span></div>
+            <h3>Open Science Exchange</h3><p class="location">Tokyo · Sample exchange</p>
+            <div class="deadline"><span class="dot"></span>Illustrative deadline · 02 Nov</div>
+            <p class="card-copy">A fictional exchange card for testing nationality, degree-year, visa, and partial-funding caveats in a compact layout.</p>
+            <footer>Demo card · no application link</footer>
+          </article>
+          <article class="card" data-category="impact" data-search="social impact hackweek dubai uae">
+            <div class="card-top"><span class="type">Social impact</span><span class="funding orange">Free entry</span></div>
+            <h3>Social Impact Hackweek</h3><p class="location">Dubai · Sample hackathon</p>
+            <div class="deadline"><span class="dot"></span>Illustrative deadline · 15 Nov</div>
+            <p class="card-copy">A fictional hackathon card that demonstrates why free registration should not be presented as funded travel.</p>
+            <footer>Demo card · no application link</footer>
+          </article>
+        </div>
+        <div class="empty" id="empty">No demo cards match this search.</div>
+      </section>
+
+      <section id="pipeline">
+        <div class="section-head"><h2>Pipeline concept</h2><p>A future interaction model for moving saved programmes through review, preparation, submission, and outcome stages.</p></div>
+        <div class="notes">
+          <article class="note"><h3>Information first</h3><p>The prototype prioritises deadline precision, eligibility, expected workload, and exactly what funding covers before visual urgency.</p></article>
+          <article class="note dark"><h3>Prototype boundaries</h3><ul><li>No live database or organiser integrations</li><li>No accounts or private application materials</li><li>No claim that sample cards are real opportunities</li></ul></article>
+        </div>
+      </section>
+
+      <section id="notes">
+        <div class="section-head"><h2>Design notes</h2><p>Built as a compact frontend exercise around card hierarchy, filtering, responsive layouts, and evidence-first opportunity research.</p></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const search = document.querySelector('#search');
+    const buttons = [...document.querySelectorAll('[data-filter]')];
+    const cards = [...document.querySelectorAll('.card')];
+    const empty = document.querySelector('#empty');
+    let category = 'all';
+
+    function updateCards() {
+      const query = search.value.trim().toLowerCase();
+      let visible = 0;
+      cards.forEach((card) => {
+        const matchesCategory = category === 'all' || card.dataset.category === category;
+        const matchesSearch = !query || card.dataset.search.includes(query) || card.textContent.toLowerCase().includes(query);
+        const show = matchesCategory && matchesSearch;
+        card.classList.toggle('hidden', !show);
+        if (show) visible += 1;
+      });
+      empty.style.display = visible ? 'none' : 'block';
+    }
+
+    buttons.forEach((button) => button.addEventListener('click', () => {
+      category = button.dataset.filter;
+      buttons.forEach((item) => item.classList.toggle('active', item === button));
+      updateCards();
+    }));
+    search.addEventListener('input', updateCards);
+  </script>
+</body>
+</html>
